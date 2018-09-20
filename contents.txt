@@ -1,0 +1,27 @@
+1.高等数学：
+    微积分，概率论，数理统计，参数估计，矩阵计算，凸优化，广义线性回归，对偶优化，梯度下降，拟牛顿，熵，最大熵模型，
+    聚类（k-means,层次聚类，谱聚类），K近邻，决策树，随机森林，Adaboost,贝叶斯网络，支持向量机，EM,主题模型，
+    马尔科夫链，隐马尔科夫模型，采样，马尔科夫随机场，条件随机场CRF，SVD,主成分分析PCA，因子分析，独立成分分析ICA，
+    卷积神经网络CNN
+
+    概率基础，随机变量，高斯分布，连续分布，jeffrey prior,scale mixture pisribarin,statistic interence,
+    Laplace变换，多元分布，概率变换，Jacobian,Wedgd production,Wishart分布，多元正太分布，统计量，矩阵元Beta分布，
+    共轭先验性质，充分统计量，指数值分布，Entropy,KL distance,Properties,概率不等式，John引理，随机投影，
+    Stochastic Convergence,EM算法，Bayesian Classification,Markov Chain Monte carlo
+
+    机器学习数学基础，高效计算基础，图像线性分类器，梯度下降法和反向传播，CNN网络结构和训练，图像识别与定位物体检测NeuralStyle,
+    RNN,其他NN,
+
+2.大数据
+
+
+3.数据分析与挖掘
+
+
+4.算法基础
+
+
+5.机器学习深度学习
+
+
+6.自然语言处理
