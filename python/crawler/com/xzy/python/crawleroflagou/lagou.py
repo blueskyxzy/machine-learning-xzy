@@ -41,7 +41,7 @@ def getjson(queryCode):
     response.encoding = 'utf-8'
     if response.status_code == 200:
         response = response.json()
-        # 请求响应中的positionResult 包括查询总数 以及该页的招聘信息
+        # 请求响应中的招聘信息
         return response['content']['positionResult']
     return None
 
@@ -94,17 +94,17 @@ if __name__ == '__main__':
         # 将数据放入列表中
         searchJobResult += page_python_job
         print('第{}页数据爬取完毕, 目前职位总数:{}'.format(i, len(searchJobResult)))
-        # 每次抓取完成后,暂停一会,防止被服务器拉黑
+        # 每次抓取完成后暂停一会防止被服务器拉黑
         time.sleep(15)
 
-        # 将总数据转化为data frame再输出
+        # 将总数据转化为data frame，再输出
         df = pd.DataFrame(data=searchJobResult,
                           columns=['公司全名', '公司简称', '公司规模', '融资阶段', '区域', '职位名称', '工作经验', '学历要求', '工资', '职位福利'])
         df.to_csv('lagou.csv', index=False, encoding='utf-8_sig')
 
-    # 读取数据
+    # 读取csv文件数据
     df = pd.read_csv('lagou.csv', encoding='utf-8')
-    # 数据清洗,剔除实习岗位
+    # 数据清洗，剔除实习岗
     df.drop(df[df['职位名称'].str.contains('实习')].index, inplace=True)
     # print(df.describe())
     # 由于CSV文件内的数据是字符串形式,先用正则表达式将字符串转化为列表,再取区间的均值
@@ -114,17 +114,17 @@ if __name__ == '__main__':
     avg_work_year = []
     # 工作年限
     for i in df['work_year']:
-       # 如果工作经验为'不限'或'应届毕业生',那么匹配值为空,工作年限为0
-       if len(i) == 0:
-           avg_work_year.append(0)
-       # 如果匹配值为一个数值,那么返回该数值
-       elif len(i) == 1:
-           avg_work_year.append(int(''.join(i)))
-       # 如果匹配值为一个区间,那么取平均值
-       else:
-           num_list = [int(j) for j in i]
-           avg_year = sum(num_list)/2
-           avg_work_year.append(avg_year)
+        # 如果工作经验为'不限'或'应届毕业生',那么匹配值为空,工作年限为0
+        if len(i) == 0:
+            avg_work_year.append(0)
+        # 如果匹配值为一个数值,那么返回该数值
+        elif len(i) == 1:
+            avg_work_year.append(int(''.join(i)))
+        # 如果匹配值为一个区间,那么取平均值
+        else:
+            num_list = [int(j) for j in i]
+            avg_year = sum(num_list)/2
+            avg_work_year.append(avg_year)
     df['工作经验'] = avg_work_year
 
     # 将字符串转化为列表,再取区间的前25%，比较贴近现实
@@ -132,9 +132,9 @@ if __name__ == '__main__':
     # 月薪
     avg_salary = []
     for k in df['salary']:
-       int_list = [int(n) for n in k]
-       avg_wage = int_list[0]+(int_list[1]-int_list[0])/4
-       avg_salary.append(avg_wage)
+        int_list = [int(n) for n in k]
+        avg_wage = int_list[0]+(int_list[1]-int_list[0])/4
+        avg_salary.append(avg_wage)
     df['月工资'] = avg_salary
 
     # 将学历不限的职位要求认定为最低学历:大专
