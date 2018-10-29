@@ -15,7 +15,8 @@ from wordcloud import WordCloud
 # Request Method: POST
 # 删减后的返回：
 # {"success":true,"requestId":null,"resubmitToken":null,"msg":null,
-# "content":{"pageNo":1,"pageSize":15,"hrInfoMap":{"2478263":{"userId":1648814,"positionName":"人力资源","phone":null,"receiveEmail":null,"realName":"大禹信息","portrait":"i/image/M00/35/D7/CgqKkVdcsXCAVPtyAAAXRqiHOqA422.jpg","canTalk":true,"userLevel":"G1"}},"positionResult":{"totalCount":3891,"locationInfo":{"city":"杭州","district":null,"businessZone":null,"locationCode":null,"isAllhotBusinessZone":false,"queryByGisCode":false},"resultSize":15,"queryAnalysisInfo":{"positionName":"java","jobNature":null,"companyName":null,"industryName":null,"usefulCompany":false},"strategyProperty":{"name":"dm-csearch-useUserAllInterest","id":1},"hotLabels":null,"hiTags":null,
+# "content":{"pageNo":1,"pageSize":15,
+# "hrInfoMap":{"2478263":{"userId":1648814,"positionName":"人力资源","phone":null,"receiveEmail":null,"realName":"大禹信息","portrait":"i/image/M00/35/D7/CgqKkVdcsXCAVPtyAAAXRqiHOqA422.jpg","canTalk":true,"userLevel":"G1"}},"positionResult":{"totalCount":3891,"locationInfo":{"city":"杭州","district":null,"businessZone":null,"locationCode":null,"isAllhotBusinessZone":false,"queryByGisCode":false},"resultSize":15,"queryAnalysisInfo":{"positionName":"java","jobNature":null,"companyName":null,"industryName":null,"usefulCompany":false},"strategyProperty":{"name":"dm-csearch-useUserAllInterest","id":1},"hotLabels":null,"hiTags":null,
 # "result":[
 # {"companyId":198547,"longitude":"120.095509","latitude":"30.307858","positionName":"Java开发工程师（应届生）","workYear":"1年以下","education":"本科","jobNature":"全职","companyLogo":"i/image/M00/22/FF/CgpEMlkRoPqALuE4AAAnYuCr79w664.png","industryField":"移动互联网,数据服务","financeStage":"不需要融资","companySize":"15-50人","city":"杭州","salary":"5k-7k","positionId":5202073,"positionAdvantage":"技术大牛,氛围融洽,五险一金","companyShortName":"酷汇网络",
 #   "createTime":"2018-10-29 09:33:14","district":"西湖区","score":0,"approve":1,"positionLables":["后端"],"industryLables":[],"publisherId":7830411,"companyLabelList":["午餐补助","定期体检","绩效奖金","带薪年假"],
@@ -30,30 +31,35 @@ from wordcloud import WordCloud
 
 
 # 接口查询获取json数据
-def getjson(queryCode):
+def getjson(queryCode, page=1):
     param = {
-
+        'first': 'true',
+        'pn': page,
+        'kd': queryCode
     }
 
     #
     header = {
-        'Host': '',
-        'Referer': ''
+        'Host': 'www.lagou.com',
+        'Referer': 'https://www.lagou.com/jobs/list_java?city=%E6%9D%AD%E5%B7%9E&cl=false&fromSearch=true&labelWords=&suginput=',
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36',
     }
 
     # 设置代理
-    proxies = [
-        {'http': '140.143.96.216:80', 'https': '140.143.96.216:80'},
-        {'http': '119.27.177.169:80', 'https': '119.27.177.169:80'},
-        {'http': '221.7.255.168:8080', 'https': '221.7.255.168:8080'}
-    ]
+    # proxies = [
+    #     {'http': '140.143.96.216:80', 'https': '140.143.96.216:80'},
+    #     {'http': '119.27.177.169:80', 'https': '119.27.177.169:80'},
+    #     {'http': '221.7.255.168:8080', 'https': '221.7.255.168:8080'}
+    # ]
 
     # 接口地址
-    url = 'https://www.lagou.com/jobs/positionAjax.json?px=default&city=%E5%8C%97%E4%BA%AC&needAddtionalResult=false'
-
+    # url = 'https://www.lagou.com/jobs/positionAjax.json?px=default&city=%E5%8C%97%E4%BA%AC&needAddtionalResult=false'
+    url = 'https://www.lagou.com/jobs/positionAjax.json?city=%E6%9D%AD%E5%B7%9E&needAddtionalResult=false'
     # 使用代理访问
     # response = requests.post(url, headers=header, data=param, proxies=random.choices(proxies))
-    response = requests.post(url, headers=header, data=param, proxies=proxies)
+    response = requests.post(url, headers=header, data=param)
+    # response = requests.post(url, headers=header, data=param, proxies=proxies)
+    print("response:{}", response)
     response.encoding = 'utf-8'
     if response.status_code == 200:
         response = response.json()
@@ -64,7 +70,7 @@ def getjson(queryCode):
 
 if __name__ == '__main__':
     queryCode = 'java'
-    jobJson = getjson(queryCode)
+    jobJson = getjson(queryCode=queryCode)
 
     # 总条数
     total = jobJson['totalCount']
@@ -77,7 +83,7 @@ if __name__ == '__main__':
 
     # 爬取前100页的数据
     for i in range(1, 100):
-        jobResult = getjson(queryCode)
+        jobResult = getjson(queryCode=queryCode, page=i)
         # 每次抓取完成后,暂停一会,防止被服务器拉黑
         time.sleep(15)
         page_python_job = []
