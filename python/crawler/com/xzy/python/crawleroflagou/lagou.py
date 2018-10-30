@@ -5,7 +5,7 @@ import requests
 import math
 import time
 import pandas as pd
-import matplotlib as plt
+import matplotlib.pyplot as plt
 import jieba
 from wordcloud import WordCloud
 
@@ -164,11 +164,11 @@ if __name__ == '__main__':
     df['学历要求'] = df['学历要求'].replace('不限', '大专')
 
     # 绘制频率直方图并保存
-    plt.hist(df['月工资'])
+    plt.hist(list(df['月工资']))
     plt.xlabel('工资 (千元)')
     plt.ylabel('频数')
     plt.title("工资直方图")
-    plt.savefig('薪资.jpg')
+    plt.savefig('image/salary.jpg')
     plt.show()
 
     # 绘制饼图并保存
@@ -176,7 +176,7 @@ if __name__ == '__main__':
     plt.pie(count, labels=count.keys(), labeldistance=1.4, autopct='%2.1f%%')
     plt.axis('equal')  # 使饼图为正圆形
     plt.legend(loc='upper left', bbox_to_anchor=(-0.1, 1))
-    plt.savefig('pie_chart.jpg')
+    plt.savefig('image/pie_chart.jpg')
     plt.show()
 
     # {'本科': 1304, '大专': 94, '硕士': 57, '博士': 1}
@@ -194,6 +194,7 @@ if __name__ == '__main__':
     print(num)
     # 绘制学历要求直方图
     plt.bar(left=index, height=num, width=0.5)
+    plt.savefig('image/education.jpg')
     plt.show()
 
     # 绘制词云,将职位福利中的字符串汇总
@@ -213,7 +214,7 @@ if __name__ == '__main__':
     ).generate(cut_text)
 
     # 保存词云图片
-    cloud.to_file('word_cloud.jpg')
+    cloud.to_file('image/word_cloud.jpg')
     plt.imshow(cloud)
     plt.axis('off')
     plt.show()
