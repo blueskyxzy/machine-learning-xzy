@@ -59,7 +59,6 @@ def getjson(queryCode, page=1):
     # response = requests.post(url, headers=header, data=param, proxies=random.choices(proxies))
     response = requests.post(url, headers=header, data=param)
     # response = requests.post(url, headers=header, data=param, proxies=proxies)
-    print("response:{}", response)
     response.encoding = 'utf-8'
     if response.status_code == 200:
         response = response.json()
@@ -71,6 +70,7 @@ def getjson(queryCode, page=1):
 if __name__ == '__main__':
     queryCode = 'java'
     jobJson = getjson(queryCode=queryCode)
+    print("jobJson:{}", jobJson)
 
     # 总条数
     total = jobJson['totalCount']
@@ -82,7 +82,7 @@ if __name__ == '__main__':
     searchJobResult = []
 
     # 爬取前100页的数据
-    for i in range(1, 100):
+    for i in range(1, 5):
         jobResult = getjson(queryCode=queryCode, page=i)
         # 每次抓取完成后,暂停一会,防止被服务器拉黑
         time.sleep(15)
@@ -130,7 +130,8 @@ if __name__ == '__main__':
     df.drop(df[df['职位名称'].str.contains('实习')].index, inplace=True)
     # print(df.describe())
     # 由于CSV文件内的数据是字符串形式,先用正则表达式将字符串转化为列表,再取区间的均值
-    pattern = 'd+'
+    pattern = '\d+'
+    # pattern = "\d+\.?\d*" 可以匹配小数点的正则
     df['work_year'] = df['工作经验'].str.findall(pattern)
     # 数据处理后的工作年限
     avg_work_year = []
