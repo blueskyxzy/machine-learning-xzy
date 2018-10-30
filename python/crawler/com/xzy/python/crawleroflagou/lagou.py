@@ -6,6 +6,7 @@ import math
 import time
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib
 import jieba
 from wordcloud import WordCloud
 
@@ -162,12 +163,15 @@ if __name__ == '__main__':
 
     # 将学历不限的职位要求认定为最低学历:大专
     df['学历要求'] = df['学历要求'].replace('不限', '大专')
-
+    # # 设置matplotlib正常显示中文和负号
+    # mpl.rcParams['font.sans-serif'] = ['SimHei']  # 用黑体显示中文
+    # mpl.rcParams['axes.unicode_minus'] = False  # 正常显示负号
+    zhfont1 = matplotlib.font_manager.FontProperties(fname='/Users/xzy/Downloads/simhei.ttf')
     # 绘制频率直方图并保存
     plt.hist(list(df['月工资']))
-    plt.xlabel('工资 (千元)')
-    plt.ylabel('频数')
-    plt.title("工资直方图")
+    plt.xlabel('工资 (千元)', fontproperties=zhfont1)
+    plt.ylabel('频数', fontproperties=zhfont1)
+    plt.title("工资直方图", fontproperties=zhfont1)
     plt.savefig('image/salary.jpg')
     plt.show()
 
@@ -197,24 +201,24 @@ if __name__ == '__main__':
     plt.savefig('image/education.jpg')
     plt.show()
 
-    # 绘制词云,将职位福利中的字符串汇总
-    text = ''
-    for line in df['职位福利']:
-        text += line
-        # 使用jieba模块将字符串分割为单词列表
-    cut_text = ' '.join(jieba.cut(text))
-    # color_mask = imread('cloud.jpg')  #设置背景图
-    cloud = WordCloud(
-        background_color='white',
-        # 对中文操作必须指明字体
-        font_path='yahei.ttf',
-        # mask = color_mask,
-        max_words=1000,
-        max_font_size=100
-    ).generate(cut_text)
-
-    # 保存词云图片
-    cloud.to_file('image/word_cloud.jpg')
-    plt.imshow(cloud)
-    plt.axis('off')
-    plt.show()
+    # # 绘制词云,将职位福利中的字符串汇总
+    # text = ''
+    # for line in df['职位福利']:
+    #     text += line
+    #     # 使用jieba模块将字符串分割为单词列表
+    # cut_text = ' '.join(jieba.cut(text))
+    # # color_mask = imread('cloud.jpg')  #设置背景图
+    # cloud = WordCloud(
+    #     background_color='white',
+    #     # 对中文操作必须指明字体
+    #     font_path='yahei.ttf',
+    #     # mask = color_mask,
+    #     max_words=1000,
+    #     max_font_size=100
+    # ).generate(cut_text)
+    #
+    # # 保存词云图片
+    # cloud.to_file('image/word_cloud.jpg')
+    # plt.imshow(cloud)
+    # plt.axis('off')
+    # plt.show()

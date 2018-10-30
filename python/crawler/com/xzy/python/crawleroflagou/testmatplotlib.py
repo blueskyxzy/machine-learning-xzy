@@ -10,10 +10,11 @@ import matplotlib
 
 zhfont1 = matplotlib.font_manager.FontProperties(fname='/Users/xzy/Downloads/simhei.ttf')
 
-d = {1, 2, 6, 5, 4, 8, 4, 2}
-plt.hist(list(d))
+d = [1, 2, 6, 5, 4, 8, 4, 2, 4]
+print(type(d))
+plt.hist(d)
 plt.xlabel(u'工资 (千元)', fontproperties=zhfont1)
 plt.ylabel(u'频数', fontproperties=zhfont1)
 plt.title(u"工资直方图", fontproperties=zhfont1)
-plt.savefig('test.jpg')
+plt.savefig('image/test.jpg')
 plt.show()
