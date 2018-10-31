@@ -202,6 +202,7 @@ if __name__ == '__main__':
     plt.savefig('image/education.jpg')
     plt.show()
 
+    # 本地缺少或找不到对应的ttf中文字体文件，报错
     # # 绘制词云,将职位福利中的字符串汇总
     # text = ''
     # for line in df['职位福利']:
@@ -220,6 +221,7 @@ if __name__ == '__main__':
     #
     # # 保存词云图片
     # cloud.to_file('image/word_cloud.jpg')
+    # plt.title('职位福利词云', fontproperties=zhfont1)
     # plt.imshow(cloud)
     # plt.axis('off')
     # plt.show()
