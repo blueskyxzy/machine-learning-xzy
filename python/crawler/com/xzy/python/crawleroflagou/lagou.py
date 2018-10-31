@@ -46,11 +46,10 @@ def getjson(queryCode, page=1):
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36',
     }
 
-    # 设置代理
+    # # 设置代理
     # proxies = [
-    #     {'http': '140.143.96.216:80', 'https': '140.143.96.216:80'},
-    #     {'http': '119.27.177.169:80', 'https': '119.27.177.169:80'},
-    #     {'http': '221.7.255.168:8080', 'https': '221.7.255.168:8080'}
+    #     {'http': '192.168.2.90:80', 'https': '192.168.2.91:80'},
+    #     {'http': '192.168.2.92:80', 'https': '192.168.2.93:80'}
     # ]
 
     # 接口地址
@@ -117,8 +116,6 @@ if __name__ == '__main__':
         # 将数据放入列表中
         searchJobResult += page_python_job
         print('第{}页数据爬取完毕, 目前职位总数:{}'.format(i, len(searchJobResult)))
-        # 每次抓取完成后暂停一会防止被服务器拉黑
-        time.sleep(15)
 
         # 将总数据转化为data frame，再输出
         df = pd.DataFrame(data=searchJobResult,
@@ -179,6 +176,7 @@ if __name__ == '__main__':
     count = df['区域'].value_counts()
     plt.pie(count, labels=count.keys(), labeldistance=1.4, autopct='%2.1f%%')
     plt.axis('equal')  # 使饼图为正圆形
+    plt.title('招聘区域饼图', fontproperties=zhfont1)
     plt.legend(loc='upper left', bbox_to_anchor=(-0.1, 1))
     plt.savefig('image/pie_chart.jpg')
     plt.show()
@@ -198,6 +196,9 @@ if __name__ == '__main__':
     print(num)
     # 绘制学历要求直方图
     plt.bar(left=index, height=num, width=0.5)
+    plt.xlabel('学历', fontproperties=zhfont1)
+    plt.ylabel('要求企业数量', fontproperties=zhfont1)
+    plt.title('学历要求直方图', fontproperties=zhfont1)
     plt.savefig('image/education.jpg')
     plt.show()
 
